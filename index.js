@@ -45,7 +45,7 @@ class Products {
       lastId = lastItem.id + 1;
     }
 
-    product.id = last.id;
+    product.id = lastId;
     this.products.push(product);
     return this.products[this.products.length -1];
   }
@@ -103,7 +103,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const { body } = req;
     body.price = parseFloat(body.price);
-    
+    const products = new Products(productsHC);
     const createdProduct = products.addOne(body);
     res.json({sucess: "ok", new: createdProduct});
     
