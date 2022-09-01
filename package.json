@@ -1,15 +1,23 @@
 {
-  "name": "clase3",
+  "name": "primeraentregatf",
   "version": "1.0.0",
-  "description": "",
+  "description": "primera entrega del trabajo final",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Gonzalo Bestoso",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
     "nodemon": "^2.0.19"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonzalobestoso/backendCoder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gonzalobestoso/backendCoder/issues"
+  },
+  "homepage": "https://github.com/gonzalobestoso/backendCoder#readme"
 }

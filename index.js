@@ -20,14 +20,19 @@ app.use((req, res, next) =>{
 })
 
 //router
-app.use('/api/products', router);
+app.use('/api', router);
+
+
+
 
 //array de productos
 let productsHC = [
-{id:1, name: 'nike', price:100, thumbnail:'http://localhost:8080/public/nike.png'}, 
-{id:2, name:'adidas', price:200, thumbnail:'http://localhost:8080/public/adidas.png'}, 
-{id:3, name:'puma', price:300, thumbnail:'http://localhost:8080/public/puma.png'}
+{id:1, name: 'nike', price:100, thumbnail:'http://localhost:8080/public/nike.png', timestamp: Date.now(), description: 'zapatilla nike', codigo: 'aaa111', stock: 25 }, 
+{id:2, name:'adidas', price:200, thumbnail:'http://localhost:8080/public/adidas.png', timestamp: Date.now(), description: 'zapatilla adidas', codigo: 'aaa222', stock: 20 }, 
+{id:3, name:'puma', price:300, thumbnail:'http://localhost:8080/public/puma.png', timestamp: Date.now(), description: 'zapatilla puma', codigo: 'aaa333', stock: 15 }
 ];
+
+let carritoHC = [{id:1, timestamp: Date.now(), products: productsHC }];
 
 class Products {
   constructor(products) {
@@ -76,17 +81,66 @@ class Products {
   }
 }
 
-router.get('/', (req, res) => {
+class Cart {
+  constructor(carts) {
+    this.carts = [... carts];
+  }
+  
+  findOne(id){
+    return this.carts.find((item) => item.id == id);
+  }
+
+  addOne(cart){
+    const lastItem = this.carts[this.carts.length - 1];
+    let lastId = 1;
+    if (lastItem){
+      lastId = lastItem.id + 1;
+    }
+
+    cart.id = lastId;
+    this.carts.push(cart);
+    return this.carts[this.carts.length -1];
+  }
+
+  updateOne(id, cart){
+    const cartToInsert = {...cart, id};
+    for(let i = 0; i< this.carts.length; i++){
+      if(this.carts[i].id == id){
+        this.carts[i] = cartToInsert;
+        return cartToInsert;
+      }
+    }
+
+    return undefined;
+  }
+
+  deleteOne(id){
+    const foundCart = this.findOne(id);
+    if (foundCart){
+      this.carts = this.carts.filter((item) => item.id != id);
+      return id;
+    }
+    return undefined;
+  }
+
+  getAll(){
+    return this.carts;
+  }
+}
+
+
+
+router.get('/products', (req, res) => {
   const products = new Products(productsHC);
   res.json(products.getAll());
 
   });
 
-router.get('/form', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+router.get('/products/form', (req, res) => {
+  res.sendFile(__dirname + '/formProductos.html');
 });
 
-router.get('/:id', (req, res) => {
+router.get('/products/:id', (req, res) => {
     let { id } = req.params;
     const products = new Products(productsHC);
     id = parseInt(id);
@@ -94,13 +148,13 @@ router.get('/:id', (req, res) => {
     if (found) {
       res.json(found);
     } else {
-      res.json({error: 'producton no encontrado'});
+      res.json({error: 'producto no encontrado'});
     }
 
 });
   
   
-router.post('/', (req, res) => {
+router.post('/products', (req, res) => {
     const { body } = req;
     body.price = parseFloat(body.price);
     const products = new Products(productsHC);
@@ -110,7 +164,7 @@ router.post('/', (req, res) => {
 });
   
   
-router.put('/:id', (req, res) => {
+router.put('/products/:id', (req, res) => {
     const { id } = req.params;
     const { body } = req;
     const products = new Products(productsHC);
@@ -118,13 +172,13 @@ router.put('/:id', (req, res) => {
     if (productToChange){
       res.json({sucess: "ok", new: productToChange})
     }else{
-      res.json({error: 'producton no encontrado'});
+      res.json({error: 'producto no encontrado'});
     }
    
 });
   
   
-router.delete('/:id', (req, res) => {
+router.delete('/products/:id', (req, res) => {
     let { id } = req.params; 
     const products = new Products(productsHC);
     id = parseInt(id);
@@ -132,6 +186,65 @@ router.delete('/:id', (req, res) => {
     if(productToDelete != undefined){
       res.json({success:"ok", id}) 
     } else {
-      res.json({error: 'producton no encontrado'});
+      res.json({error: 'producto no encontrado'});
+    }
+});
+
+
+router.get('/cart', (req, res) => {
+  const carrito = new Cart(carritoHC);
+  res.json(carrito.getAll());
+
+  });
+
+router.get('/cart/form', (req, res) => {
+  res.sendFile(__dirname + '/carrito.html');
+});
+
+router.get('/cart/:id', (req, res) => {
+    let { id } = req.params;
+    const carrito = new Cart(carritoHC);
+    id = parseInt(id);
+    const found  = carrito.findOne(id);
+    if (found) {
+      res.json(found);
+    } else {
+      res.json({error: 'producto en carrito no encontrado'});
+    }
+
+});  
+  
+router.post('/cart', (req, res) => {
+    const { body } = req;
+    const carrito = new Cart(carritoHC);
+    const createdCarrito = carrito.addOne(body);
+    res.json({sucess: "ok", new: createdCarrito});
+    
+});
+  
+  
+router.put('/cart/:id', (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    const carrito = new Cart(carritoHC);
+    const cartToChange = carrito.updateOne(id, body);
+    if (cartToChange){
+      res.json({sucess: "ok", new: cartToChange})
+    }else{
+      res.json({error: 'producto en carritono encontrado'});
+    }
+   
+});
+  
+  
+router.delete('/cart/:id', (req, res) => {
+    let { id } = req.params; 
+    const carrito = new Cart(carritoHC);
+    id = parseInt(id);
+    const carritoToDelete = carrito.deleteOne(id);
+    if(carritoToDelete != undefined){
+      res.json({success:"ok", id}) 
+    } else {
+      res.json({error: 'producto en carrito no encontrado'});
     }
 });
