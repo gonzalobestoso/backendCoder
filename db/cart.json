@@ -1,0 +1,36 @@
+[
+    {
+      "id": 1,
+      "timestamp": "05/09/2022",
+      "products": [
+        {
+            "id":1,
+            "name": "nike",
+            "price":100, 
+            "thumbnail":"http://localhost:8080/public/nike.png", 
+            "timestamp": "07/09/2022", 
+            "description": "zapatilla nike", 
+            "code": "aaa111", 
+            "stock": 25  
+
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "timestamp": "06/09/2022",
+      "products": [
+        {
+            "id":2, 
+            "name":"adidas", 
+            "price":200, 
+            "thumbnail":"http://localhost:8080/public/adidas.png", 
+            "timestamp": "02/09/2022", 
+            "description": "zapatilla adidas", 
+            "code": "aaa222", 
+            "stock": 20
+
+        }
+      ]
+    }    
+  ]
