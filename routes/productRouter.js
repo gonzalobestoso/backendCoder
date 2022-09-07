@@ -7,6 +7,7 @@ const productsRouter = Router();
 
 const product = new Product("products");
 const isAdmin = true;
+const checkAdmin = require("../middleware/auth");
 
 productsRouter.get("/", (req, res) => {
   product.getAll().then((products) => {
@@ -25,14 +26,6 @@ productsRouter.get("/:id", (req, res) => {
           .json({ error: `No se encontró el producto con el id ${id}` });
   });
 });
-
-const checkAdmin = (req, res, next) => {
-  if (!isAdmin) {
-    return res.status(403).send({ error: "Acceso no autorizado" });
-  } else {
-    return next();
-  }
-};
 
 productsRouter.post("/", checkAdmin, (req, res) => {
   let timestamp = Date.now();
