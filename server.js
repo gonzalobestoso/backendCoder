@@ -6,12 +6,13 @@ const cors = require("cors");
 const app = express();
 
 const PORT = process.env.PORT || 8080;
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 app.use("/api/carrito", cartRouter);
 app.use("/api/productos", productsRouter.productsRouter);
+app.use('/public', express.static(__dirname + '/public'));
 
 const isAdmin = require("./routes/productRouter");
 

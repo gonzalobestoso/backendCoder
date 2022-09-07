@@ -1,5 +1,1 @@
-[
-    {"id":1, "name": "nike", "price":100, "thumbnail":"http://localhost:8080/public/nike.png", "timestamp": "01/09/2022", "description": "zapatilla nike", "code": "aaa111", "stock": 25 }, 
-    {"id":2, "name":"adidas", "price":200, "thumbnail":"http://localhost:8080/public/adidas.png", "timestamp": "02/09/2022", "description": "zapatilla adidas", "code": "aaa222", "stock": 20 }, 
-    {"id":3, "name":"puma", "price":300, "thumbnail":"http://localhost:8080/public/puma.png", "timestamp": "03/09/2022", "description": "zapatilla puma", "code": "aaa333", "stock": 15 }
-]
+[{"id":1,"name":"nike","price":100,"thumbnail":"http://localhost:8080/public/nike.png","timestamp":"01/09/2022","description":"zapatilla nike","code":"aaa111","stock":25},{"id":2,"name":"adidas","price":200,"thumbnail":"http://localhost:8080/public/adidas.png","timestamp":"02/09/2022","description":"zapatilla adidas","code":"aaa222","stock":20},{"id":3,"name":"puma","price":300,"thumbnail":"http://localhost:8080/public/puma.png","timestamp":"03/09/2022","description":"zapatilla puma","code":"aaa333","stock":15},{"id":4,"timestamp":"7/9/2022","price":null,"stock":null}]
